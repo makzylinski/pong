@@ -8,10 +8,14 @@ let playerPosition = 16;
 let ballPosition = [0, 0];
 let ballSpeedX = 15;
 let ballSpeedY = 15;
+let startingPlayer;
 
 const PLAYER_UP = 'PLAYER_UP';
 const PLAYER_DOWN = 'PLAYER_DOWN';
 
+window.onload = () => {
+    chooseStartingPlayer();
+}
 
 document.addEventListener('keydown', (event) => {
     if (gameStopped && event.keyCode === 13) {
@@ -26,6 +30,11 @@ document.addEventListener('keydown', (event) => {
         }
     }
 })
+
+const chooseStartingPlayer = () => {
+    startingPlayer = Math.floor(Math.random()*2);
+    startingPlayer ? ball.style.right = 0 : ball.style.left = '-100%';
+}
 
 const movePlayer = direction => {
     if (playerPosition > 0 && playerPosition <= 315) {
@@ -52,27 +61,31 @@ const movePlayer = direction => {
     // console.log(player.style.top)
 }
 
-const ballMovement = () => {
-    const moveBall = () => {
-        if(ballPosition[0] < 0) {
-            console.log('WYSZŁA Z GORY')
-        } else if ( ballPosition[0] > 315) {
-            console.log(' Z DOLU')
-            ballPosition[1] = ballPosition[1] - ballSpeedY
-            ball.style.top = ballPosition[0] + 'px';
-            ball.style.right = ballPosition[1] + 'px';
+// const ballMovement = () => {
+//     const moveBall = () => {
+//         if(ballPosition[0] < 0) {
+//             console.log('WYSZŁA Z GORY')
+//         } else if ( ballPosition[0] > 320) {
+//             console.log(' Z DOLU')
+//             ballPosition[0] = ballPosition[0] - ballSpeedY;
+//             ballPosition[1] = ballPosition[1] - ballSpeedX;
+//             // console.log(ballPosition[0]);
+//             ball.style.top = ballPosition[0] + 'px';
+//             ball.style.right = ballPosition[1] + 'px';
+//             console.log('a')
+//         } else {
+//             ballPosition[0] = ballPosition[0] + ballSpeedY;
+//             ballPosition[1] = ballPosition[1] + ballSpeedX;
+//             // console.log(ballPosition);
+//             console.log('b')
+//             ball.style.top = ballPosition[0] + 'px';
+//             ball.style.right = ballPosition[1] + 'px';
     
-        } else {
-            ballPosition[0] = ballPosition[0] + ballSpeedY;
-            ballPosition[1] = ballPosition[1] + ballSpeedX;
-            console.log(ballPosition);
-    
-            ball.style.top = ballPosition[0] + 'px';
-            ball.style.right = ballPosition[1] + 'px';
-    
-            console.log(ball.style.top)
-            console.log(ball.style.right)
-        }
-    }
-    const ballInterval = setInterval(moveBall, 200);  
-}
+//             // console.log(ball.style.top)
+//             // console.log(ball.style.right)
+//         }
+//         // console.log(ballPosition[0])
+//         // console.log(ballPosition)
+//     }
+//     const ballInterval = setInterval(moveBall, 170);  
+// }
