@@ -3,6 +3,9 @@ const computer = document.querySelector('.game__left-player');
 const playerResult = document.querySelector('.game__score-left');
 const computerResult = document.querySelector('.game__score-right');
 const ball = document.querySelector('.game__ball');
+const game = document.querySelector('.game');
+let gameWindowHeight;
+let gameWindowWidth;
 let gameStopped = true;
 let playerPosition = 16;
 let ballPosition = [0, 0];
@@ -16,6 +19,7 @@ const PLAYER_DOWN = 'PLAYER_DOWN';
 
 window.onload = () => {
     chooseStartingPlayer();
+    initGameDimensions();
 }
 
 document.addEventListener('keydown', (event) => {
@@ -34,6 +38,11 @@ document.addEventListener('keydown', (event) => {
         stopBallMovement();
     }
 })
+
+const initGameDimensions = () => {
+    gameWindowHeight = game.clientHeight;
+    gameWindowWidth = game.clientWidth;
+}
 
 const chooseStartingPlayer = () => {
     startingPlayer = Math.floor(Math.random() * 2);
@@ -57,6 +66,7 @@ const stopBallMovement = () => {
 
 const ballMovement = () => {
     const chagneBallDirection = () => {
+        console.log(ballPosition)
         if (ballPosition[0] >= 0 && ballPosition[0] <= 340
             && ballPosition[1] >= 0 && ballPosition[1] <= 476) {
 
