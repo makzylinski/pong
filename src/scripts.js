@@ -8,7 +8,7 @@ let gameWindowHeight;
 let gameWindowWidth;
 let gameStopped = true;
 let playerPosition = 16;
-let ballPosition = [0, 0];
+let ballPosition;
 let ballSpeedX = 1;
 let ballSpeedY = 1;
 let startingPlayer;
@@ -46,7 +46,6 @@ const initGameDimensions = () => {
 
 const chooseStartingPlayer = () => {
     startingPlayer = Math.floor(Math.random() * 2);
-    startingPlayer ? ball.style.right = 0 : ball.style.left = '-100%';
 }
 
 const movePlayer = direction => {
@@ -64,21 +63,30 @@ const stopBallMovement = () => {
     clearInterval(ballInterval);
 }
 
+const setInitialBallPosition = () => {
+    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth-5];
+    ball.style.display = "block";
+    ball.style.top = ballPosition[0];
+    ball.style.right = ballPosition[1];
+    
+}
+
 const ballMovement = () => {
+    setInitialBallPosition();
     const chagneBallDirection = () => {
-        console.log(ballPosition)
-        if (ballPosition[0] >= 0 && ballPosition[0] <= 340
-            && ballPosition[1] >= 0 && ballPosition[1] <= 476) {
+        if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
+            && ballPosition[1] >= 0 && ballPosition[1] <= gameWindowWidth) {
 
             ballPosition[1] = ballPosition[1] + ballSpeedX; //width X
             ballPosition[0] = ballPosition[0] + ballSpeedY; //height Y
 
-            if (ballPosition[1] < 0 || ballPosition[1] > 476) {
+            // -5 stands for ball's width/height
+            if (ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth-5) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
             }
 
-            if (ballPosition[0] < 0 || ballPosition[0] > 340) {
+            if (ballPosition[0] < 0 || ballPosition[0] > gameWindowHeight-5) {
                 ballSpeedY = ballSpeedY * (-1);
                 ballPosition[0] = ballPosition[0] + ballSpeedY;
             }
