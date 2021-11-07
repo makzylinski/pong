@@ -119,8 +119,9 @@ const startGame = () => {
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5)) {
                 console.log('lost a point');
             }
-            if (
-                (ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)) {
+
+            if ((ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)
+            || ((ballPosition[1] >= 464 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
                 console.log('UDDERZENIE')
