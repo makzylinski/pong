@@ -65,22 +65,17 @@ const calculateControllersCoordinates = () => {
         playerPos = player.getBoundingClientRect(),
         computerPos = computer.getBoundingClientRect();
 
-    relativePlayerPos.top = playerPos.top - parentPos.top,
+    relativePlayerPos.top = Math.abs(playerPos.top - parentPos.top),
         relativePlayerPos.right = playerPos.right - parentPos.right,
-        relativePlayerPos.bottom = playerPos.bottom - parentPos.bottom,
+        relativePlayerPos.bottom = parentPos.bottom - playerPos.bottom,
         relativePlayerPos.left = playerPos.left - parentPos.left,
         relativePlayerPos.elementHeight = player.offsetHeight;
 
-    relativeComputerPos.top = computerPos.top - parentPos.top,
+    relativeComputerPos.top = Math.abs(computerPos.top - parentPos.top),
         relativeComputerPos.right = computerPos.right - parentPos.right,
-        relativeComputerPos.bottom = computerPos.bottom - parentPos.bottom,
+        relativeComputerPos.bottom = parentPos.bottom - computerPos.bottom,
         relativeComputerPos.left = computerPos.left - parentPos.left,
         relativeComputerPos.elementHeight = computer.offsetHeight;
-
-
-    console.log(parentPos)
-    console.log(relativePlayerPos)
-    console.log(relativeComputerPos);
 }
 
 const movePlayer = direction => {
@@ -110,7 +105,7 @@ const setInitialBallPosition = () => {
 const startGame = () => {
     setInitialBallPosition();
     playerMoveHandler();
-    const chagneGameState = () => {
+    const chagneGameState = () => {     // this is basically ball movement
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
             && ballPosition[1] >= 0 && ballPosition[1] <= gameWindowWidth) {
 
@@ -118,9 +113,17 @@ const startGame = () => {
             ballPosition[0] = ballPosition[0] + ballSpeedY; //height Y
 
             // -5 stands for ball's width/height
-            if (ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5) {
+
+            const bottomController = relativePlayerPos.top + 70;
+
+            if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5)) {
+                console.log('lost a point');
+            }
+            if (
+                (ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
+                console.log('UDDERZENIE')
             }
 
             if (ballPosition[0] < 0 || ballPosition[0] > gameWindowHeight - 5) {
