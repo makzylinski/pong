@@ -6,8 +6,8 @@ const ball = document.querySelector('.game__ball');
 let gameStopped = true;
 let playerPosition = 16;
 let ballPosition = [0, 0];
-let ballSpeedX = 15;
-let ballSpeedY = 15;
+let ballSpeedX = 1;
+let ballSpeedY = 1;
 let startingPlayer;
 let ballInterval;
 
@@ -51,11 +51,6 @@ const stopBallMovement = () => {
     clearInterval(ballInterval);
 }
 
-// const calculateBallDirectionChange = (index, verticalDirection, horizontalDirection) => {
-//     if ()
-//     return ballPosition[index] = ballPosition[index] + verticalDirection === 'Y' ? ballSpeedY : ballSpeedX;
-// }
-
 const setInitialBallMovement = () => {
     if (startingPlayer) {
 
@@ -64,118 +59,27 @@ const setInitialBallMovement = () => {
 
 const ballMovement = () => {
     const chagneBallDirection = () => {
-        // console.log(calculateBallDirectionChange(0, 'Y'))
-        // console.log(ballPosition)
-
-        while (ballPosition[0] >= 0 && ballPosition[0] <= 320
+        if (ballPosition[0] >= 0 && ballPosition[0] <= 340
             && ballPosition[1] >= 0 && ballPosition[1] <= 476) {
 
-            // x = ballPosition[0];
-            // y = ballPosition[1];
-            //
-            //x=x+vx
-            // y=y+vy
-            // if x<0 or x>WIDTH:
-            //     vx=-vx
-            //     x=x+vx
-            // if y<0 or y>HEIGHT:
-            //     vy=-vy
-            //     y=y+vy
+            ballPosition[1] = ballPosition[1] + ballSpeedX; //width X
+            ballPosition[0] = ballPosition[0] + ballSpeedY; //height Y
 
-            let x = ballPosition[0] = ballPosition[0] + ballSpeedX;
-            let y = ballPosition[1] = ballPosition[1] + ballSpeedY;
-
-            if (x < 0 || x > 476) {
-                ballSpeedX = ballSpeedX * -1;
-                x = x + ballSpeedX;
+            if (ballPosition[1] < 0 || ballPosition[1] > 476) {
+                ballSpeedX = ballSpeedX * (-1);
+                ballPosition[1] = ballPosition[1] + ballSpeedX;
             }
 
-            if (y < 0 || y < 320) {
-                ballSpeedY = ballSpeedY * -1;
-                y = y + ballSpeedY;
+            if (ballPosition[0] < 0 || ballPosition[0] > 340) {
+                ballSpeedY = ballSpeedY * (-1);
+                ballPosition[0] = ballPosition[0] + ballSpeedY;
             }
 
-            console.log(x,y)
+            ball.style.top = ballPosition[0] + 'px';
+            ball.style.right = ballPosition[1] + 'px';
 
-            ballPosition[0] = x;
-            ballPosition[1] = y;
-
-
-
-            // if (ballPosition[0] < 0 || ballPosition[0] > 320) {
-            //     ballPosition[0] = ballPosition[0] - ballSpeedY;
-            // }
-            // setInitialBallMovement();
-            // if (ballPosition[0] === 0) {
-            //     console.log('odbij z gory na dol')
-            //     ballPosition[0] = ballPosition[0] + ballSpeedY;
-            //     // ballPosition[1] = ballPosition[1] - ballSpeedX;
-            //     ball.style.top = ballPosition[0] + 'px';
-            //     // ball.style.right = ballPosition[1] + 'px';
-            //     // calculateBallDirectionChange(0, 'Y');
-            // } else if (ballPosition[0] === 320) {
-            //     console.log('odbij z dolu na gore')
-            //     ballPosition[0] = ballPosition[0] + ballSpeedY;
-            //     // ballPosition[1] = ballPosition[1] - ballSpeedX;
-            //     ball.style.top = ballPosition[0] + 'px';
-            //     // ball.style.right = ballPosition[1] + 'px';
-            //     // calculateBallDirectionChange(0, 'Y');
-            // } else if (ballPosition[1] === 0) {
-            //     // ballPosition[0] = ballPosition[0] + ballSpeedY;
-            //     ballPosition[1] = ballPosition[1] + ballSpeedX;
-            //     // ball.style.top = ballPosition[0] + 'px';
-            //     ball.style.right = ballPosition[1] + 'px';
-            //     console.log('odbij z prawej na lewo')
-            // } else if (ballPosition[1] === 476) {
-            //     // ballPosition[0] = ballPosition[0] + ballSpeedY;
-            //     ballPosition[1] = ballPosition[1] - ballSpeedX;
-            //     // ball.style.top = ballPosition[0] + 'px';
-            //     ball.style.right = ballPosition[1] + 'px';
-            //     console.log('odbij z lewej na prawo')
-            // }
+            console.log(ballPosition)
         }
-
-
-        // if (ballPosition[0] < 0) {
-        //     console.log('WYSZŁA Z GORY')
-        // } else if (ballPosition[0] > 320) {
-        //     console.log(' Z DOLU')
-        // } else if (ballPosition[1] < 0) {
-        //     console.log('')
-        // } else if (ballPosition[1] > 476) {
-        //     console.log('')
-        // }
     }
-    ballInterval = setInterval(chagneBallDirection, 170);
+    ballInterval = setInterval(chagneBallDirection, 5);
 }
-
-
-
-// const ballMovement = () => {
-//     const moveBall = () => {
-//         if(ballPosition[0] < 0) {
-//             console.log('WYSZŁA Z GORY')
-//         } else if ( ballPosition[0] > 320) {
-//             console.log(' Z DOLU')
-//             ballPosition[0] = ballPosition[0] - ballSpeedY;
-//             ballPosition[1] = ballPosition[1] - ballSpeedX;
-//             // console.log(ballPosition[0]);
-//             ball.style.top = ballPosition[0] + 'px';
-//             ball.style.right = ballPosition[1] + 'px';
-//             console.log('a')
-//         } else {
-//             ballPosition[0] = ballPosition[0] + ballSpeedY;
-//             ballPosition[1] = ballPosition[1] + ballSpeedX;
-//             // console.log(ballPosition);
-//             console.log('b')
-//             ball.style.top = ballPosition[0] + 'px';
-//             ball.style.right = ballPosition[1] + 'px';
-
-//             // console.log(ball.style.top)
-//             // console.log(ball.style.right)
-//         }
-//         // console.log(ballPosition[0])
-//         // console.log(ballPosition)
-//     }
-//     const ballInterval = setInterval(moveBall, 170);  
-// }
