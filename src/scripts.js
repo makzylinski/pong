@@ -1,7 +1,7 @@
 const player = document.querySelector('.game__right-player');
 const computer = document.querySelector('.game__left-player');
-const playerResult = document.querySelector('.game__score-left');
-const computerResult = document.querySelector('.game__score-right');
+const playerResult = document.querySelector('.game__score-right');
+const computerResult = document.querySelector('.game__score-left');
 const ball = document.querySelector('.game__ball');
 const game = document.querySelector('.game');
 let gameWindowHeight;
@@ -15,6 +15,8 @@ let startingPlayer;
 let ballInterval;
 const relativePlayerPos = {};
 const relativeComputerPos = {}
+let playerScore = 0;
+let computerScore = 0;
 
 const PLAYER_UP = 'PLAYER_UP';
 const PLAYER_DOWN = 'PLAYER_DOWN';
@@ -24,6 +26,7 @@ window.onload = () => {
     initGameDimensions();
     calculateControllersCoordinates();
     detectGameStart();
+    initScores();
 }
 
 const detectGameStart = () => {
@@ -58,6 +61,11 @@ const chooseStartingPlayer = () => {
 const initGameDimensions = () => {
     gameWindowHeight = game.clientHeight;
     gameWindowWidth = game.clientWidth;
+}
+
+const initScores = () => {
+    computerResult.innerText = computerScore;
+    playerResult.innerText = playerScore;
 }
 
 const calculateControllersCoordinates = () => {
@@ -115,9 +123,15 @@ const startGame = () => {
             // -5 stands for ball's width/height
 
             const bottomController = relativePlayerPos.top + 70;
-
+                console.log(ballPosition)
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5)) {
-                console.log('lost a point');
+                if (ballPosition[1] === 481) {
+                    playerScore += 1;
+                    playerResult.innerText = playerScore;
+                } else if (ballPosition[1] === 1) {
+                    computerScore += 1;
+                    computerResult.innerText = computerScore;
+                }
             }
 
             if ((ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)
