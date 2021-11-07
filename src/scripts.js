@@ -55,12 +55,6 @@ const stopBallMovement = () => {
     clearInterval(ballInterval);
 }
 
-const setInitialBallMovement = () => {
-    if (startingPlayer) {
-
-    }
-}
-
 const ballMovement = () => {
     const chagneBallDirection = () => {
         if (ballPosition[0] >= 0 && ballPosition[0] <= 340
