@@ -23,6 +23,8 @@
     height: 85%;
     display: flex;
     border: 2px solid red;
+    border-left: none;
+    border-right: none;
 }
 
 .game__divider {
@@ -41,9 +43,8 @@
 }
 
 .game__left-player, .game__right-player {
-    height: 10%;
+    height: 70px;
     width: 10px;
-    bottom: 4px;
     background-color: #fff;
     position: absolute;
 }
