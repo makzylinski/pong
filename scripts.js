@@ -19,14 +19,14 @@ window.onload = () => {
 }
 
 document.addEventListener('keydown', (event) => {
-    if (gameStopped && event.keyCode === 13) {
+    if (gameStopped && event.key === 'Enter') {
         gameStopped = false;
         ballMovement();
     }
-    if (event.keyCode !== undefined && !gameStopped) {
-        if (event.keyCode == 87) {
+    if (event.key !== undefined && !gameStopped) {
+        if (event.key == 'w' || event.key == 'W' || event.key == 'ArrowUp') {
             movePlayer(PLAYER_UP);
-        } else if (event.keyCode == 83) {
+        } else if (event.key == 's' || event.key == 'S' || event.key == 'ArrowDown') {
             movePlayer(PLAYER_DOWN);
         }
     }
@@ -41,9 +41,12 @@ const chooseStartingPlayer = () => {
 }
 
 const movePlayer = direction => {
-    console.log('test')
-    if (playerPosition > 0 && playerPosition <= 315) {
-        direction === PLAYER_DOWN ? playerPosition += 15 : playerPosition -= 15;
+    const nextStep = 15;
+
+    if (direction === PLAYER_DOWN && playerPosition + nextStep <= 305) {
+        playerPosition += nextStep;
+    } else if (direction === PLAYER_UP && playerPosition - nextStep >= 0) {
+        playerPosition -= nextStep;
     }
     player.style.top = playerPosition + 'px';
 }
@@ -78,8 +81,6 @@ const ballMovement = () => {
 
             ball.style.top = ballPosition[0] + 'px';
             ball.style.right = ballPosition[1] + 'px';
-
-            console.log(ballPosition)
         }
     }
     ballInterval = setInterval(chagneBallDirection, 5);
