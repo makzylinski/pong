@@ -24,7 +24,6 @@ document.addEventListener('keydown', (event) => {
         ballMovement();
     }
     if (event.key !== undefined && !gameStopped) {
-        console.log(event.key)
         if (event.key == 'w' || event.key == 'W' || event.key == 'ArrowUp') {
             movePlayer(PLAYER_UP);
         } else if (event.key == 's' || event.key == 'S' || event.key == 'ArrowDown') {
@@ -42,8 +41,12 @@ const chooseStartingPlayer = () => {
 }
 
 const movePlayer = direction => {
-    if (playerPosition > 0 && playerPosition <= 315) {
-        direction === PLAYER_DOWN ? playerPosition += 15 : playerPosition -= 15;
+    const nextStep = 15;
+
+    if (direction === PLAYER_DOWN && playerPosition + nextStep <= 305) {
+        playerPosition += nextStep;
+    } else if (direction === PLAYER_UP && playerPosition - nextStep >= 0) {
+        playerPosition -= nextStep;
     }
     player.style.top = playerPosition + 'px';
 }
