@@ -68,12 +68,14 @@ const calculateControllersCoordinates = () => {
     relativePlayerPos.top = playerPos.top - parentPos.top,
         relativePlayerPos.right = playerPos.right - parentPos.right,
         relativePlayerPos.bottom = playerPos.bottom - parentPos.bottom,
-        relativePlayerPos.left = playerPos.left - parentPos.left;
+        relativePlayerPos.left = playerPos.left - parentPos.left,
+        relativePlayerPos.elementHeight = player.offsetHeight;
 
     relativeComputerPos.top = computerPos.top - parentPos.top,
         relativeComputerPos.right = computerPos.right - parentPos.right,
         relativeComputerPos.bottom = computerPos.bottom - parentPos.bottom,
-        relativeComputerPos.left = computerPos.left - parentPos.left;
+        relativeComputerPos.left = computerPos.left - parentPos.left,
+        relativeComputerPos.elementHeight = computer.offsetHeight;
 
 
     console.log(parentPos)
