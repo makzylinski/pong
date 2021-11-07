@@ -43,7 +43,6 @@
 .game__left-player, .game__right-player {
     height: 20%;
     width: 10px;
-    bottom: 4px;
     background-color: #fff;
     position: absolute;
 }

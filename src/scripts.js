@@ -13,10 +13,8 @@ let ballSpeedX = 1;
 let ballSpeedY = 1;
 let startingPlayer;
 let ballInterval;
-let playerWidth;
-let playerHeight;
-let computerWidth;
-let computerHeight;
+const relativePlayerPos = {};
+const relativeComputerPos = {}
 
 const PLAYER_UP = 'PLAYER_UP';
 const PLAYER_DOWN = 'PLAYER_DOWN';
@@ -24,7 +22,7 @@ const PLAYER_DOWN = 'PLAYER_DOWN';
 window.onload = () => {
     chooseStartingPlayer();
     initGameDimensions();
-    initPlayersHitboxes();
+    calculateControllersCoordinates();
     detectGameStart();
 }
 
@@ -62,11 +60,25 @@ const initGameDimensions = () => {
     gameWindowWidth = game.clientWidth;
 }
 
-const initPlayersHitboxes = () => {
-    playerWidth = player.clientWidth;
-    playerHeight = player.clientHeight;
-    computerWidth = computer.clientWidth;
-    computerHeight = computer.clientHeight;
+const calculateControllersCoordinates = () => {
+    const parentPos = game.getBoundingClientRect(),
+        playerPos = player.getBoundingClientRect(),
+        computerPos = computer.getBoundingClientRect();
+
+    relativePlayerPos.top = playerPos.top - parentPos.top,
+        relativePlayerPos.right = playerPos.right - parentPos.right,
+        relativePlayerPos.bottom = playerPos.bottom - parentPos.bottom,
+        relativePlayerPos.left = playerPos.left - parentPos.left;
+
+    relativeComputerPos.top = computerPos.top - parentPos.top,
+        relativeComputerPos.right = computerPos.right - parentPos.right,
+        relativeComputerPos.bottom = computerPos.bottom - parentPos.bottom,
+        relativeComputerPos.left = computerPos.left - parentPos.left;
+
+
+    console.log(parentPos)
+    console.log(relativePlayerPos)
+    console.log(relativeComputerPos);
 }
 
 const movePlayer = direction => {
@@ -78,6 +90,7 @@ const movePlayer = direction => {
         playerPosition -= nextStep;
     }
     player.style.top = playerPosition + 'px';
+    calculateControllersCoordinates();
 }
 
 const stopBallMovement = () => {
