@@ -37,6 +37,7 @@ const chooseStartingPlayer = () => {
 }
 
 const movePlayer = direction => {
+    console.log('test')
     if (playerPosition > 0 && playerPosition <= 315) {
         if (direction === PLAYER_DOWN) {
             // dodawac do topa
