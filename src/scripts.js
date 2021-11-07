@@ -13,6 +13,10 @@ let ballSpeedX = 1;
 let ballSpeedY = 1;
 let startingPlayer;
 let ballInterval;
+let playerWidth;
+let playerHeight;
+let computerWidth;
+let computerHeight;
 
 const PLAYER_UP = 'PLAYER_UP';
 const PLAYER_DOWN = 'PLAYER_DOWN';
@@ -20,32 +24,49 @@ const PLAYER_DOWN = 'PLAYER_DOWN';
 window.onload = () => {
     chooseStartingPlayer();
     initGameDimensions();
+    initPlayersHitboxes();
+    detectGameStart();
 }
 
-document.addEventListener('keydown', (event) => {
-    if (gameStopped && event.key === 'Enter') {
-        gameStopped = false;
-        ballMovement();
-    }
-    if (event.key !== undefined && !gameStopped) {
-        if (event.key == 'w' || event.key == 'W' || event.key == 'ArrowUp') {
-            movePlayer(PLAYER_UP);
-        } else if (event.key == 's' || event.key == 'S' || event.key == 'ArrowDown') {
-            movePlayer(PLAYER_DOWN);
+const detectGameStart = () => {
+    document.addEventListener('keydown', (e) => {
+        if (gameStopped && e.key === 'Enter') {
+            gameStopped = false;
+            startGame();
+        };
+        if (e.key == 'Escape') {
+            stopBallMovement();
+        };
+    });
+}
+
+const playerMoveHandler = () => {
+    document.addEventListener('keypress', (event) => {
+        if (event.key !== undefined && !gameStopped) {
+            event.preventDefault();
+            if (event.key == 'w' || event.key == 'W' || event.key == 'ArrowUp') {
+                movePlayer(PLAYER_UP);
+            } else if (event.key == 's' || event.key == 'S' || event.key == 'ArrowDown') {
+                movePlayer(PLAYER_DOWN);
+            }
         }
-    }
-    if (event.key == 'Escape') {
-        stopBallMovement();
-    }
-})
+    })
+}
+
+const chooseStartingPlayer = () => {
+    startingPlayer = Math.floor(Math.random() * 2);
+}
 
 const initGameDimensions = () => {
     gameWindowHeight = game.clientHeight;
     gameWindowWidth = game.clientWidth;
 }
 
-const chooseStartingPlayer = () => {
-    startingPlayer = Math.floor(Math.random() * 2);
+const initPlayersHitboxes = () => {
+    playerWidth = player.clientWidth;
+    playerHeight = player.clientHeight;
+    computerWidth = computer.clientWidth;
+    computerHeight = computer.clientHeight;
 }
 
 const movePlayer = direction => {
@@ -64,16 +85,17 @@ const stopBallMovement = () => {
 }
 
 const setInitialBallPosition = () => {
-    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth-5];
+    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 5];
     ball.style.display = "block";
     ball.style.top = ballPosition[0];
     ball.style.right = ballPosition[1];
-    
+
 }
 
-const ballMovement = () => {
+const startGame = () => {
     setInitialBallPosition();
-    const chagneBallDirection = () => {
+    playerMoveHandler();
+    const chagneGameState = () => {
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
             && ballPosition[1] >= 0 && ballPosition[1] <= gameWindowWidth) {
 
@@ -81,12 +103,12 @@ const ballMovement = () => {
             ballPosition[0] = ballPosition[0] + ballSpeedY; //height Y
 
             // -5 stands for ball's width/height
-            if (ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth-5) {
+            if (ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
             }
 
-            if (ballPosition[0] < 0 || ballPosition[0] > gameWindowHeight-5) {
+            if (ballPosition[0] < 0 || ballPosition[0] > gameWindowHeight - 5) {
                 ballSpeedY = ballSpeedY * (-1);
                 ballPosition[0] = ballPosition[0] + ballSpeedY;
             }
@@ -95,5 +117,5 @@ const ballMovement = () => {
             ball.style.right = ballPosition[1] + 'px';
         }
     }
-    ballInterval = setInterval(chagneBallDirection, 5);
+    ballInterval = setInterval(chagneGameState, 5);
 }
