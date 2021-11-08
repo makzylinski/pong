@@ -1,7 +1,7 @@
 const player = document.querySelector('.game__right-player');
 const computer = document.querySelector('.game__left-player');
-const playerResult = document.querySelector('.game__score-left');
-const computerResult = document.querySelector('.game__score-right');
+const playerResult = document.querySelector('.game__score-right');
+const computerResult = document.querySelector('.game__score-left');
 const ball = document.querySelector('.game__ball');
 const game = document.querySelector('.game');
 let gameWindowHeight;
@@ -15,6 +15,8 @@ let startingPlayer;
 let ballInterval;
 const relativePlayerPos = {};
 const relativeComputerPos = {}
+let playerScore = 0;
+let computerScore = 0;
 
 const PLAYER_UP = 'PLAYER_UP';
 const PLAYER_DOWN = 'PLAYER_DOWN';
@@ -24,6 +26,7 @@ window.onload = () => {
     initGameDimensions();
     calculateControllersCoordinates();
     detectGameStart();
+    initScores();
 }
 
 const detectGameStart = () => {
@@ -58,6 +61,11 @@ const chooseStartingPlayer = () => {
 const initGameDimensions = () => {
     gameWindowHeight = game.clientHeight;
     gameWindowWidth = game.clientWidth;
+}
+
+const initScores = () => {
+    computerResult.innerText = computerScore;
+    playerResult.innerText = playerScore;
 }
 
 const calculateControllersCoordinates = () => {
@@ -95,7 +103,7 @@ const stopBallMovement = () => {
 }
 
 const setInitialBallPosition = () => {
-    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 5];
+    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 55];
     ball.style.display = "block";
     ball.style.top = ballPosition[0];
     ball.style.right = ballPosition[1];
@@ -105,7 +113,7 @@ const setInitialBallPosition = () => {
 const startGame = () => {
     setInitialBallPosition();
     playerMoveHandler();
-    const chagneGameState = () => {     // this is basically ball movement
+    const changeGameState = () => {     // this is basically ball movement
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
             && ballPosition[1] >= 0 && ballPosition[1] <= gameWindowWidth) {
 
@@ -115,12 +123,18 @@ const startGame = () => {
             // -5 stands for ball's width/height
 
             const bottomController = relativePlayerPos.top + 70;
-
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5)) {
-                console.log('lost a point');
+                if (ballPosition[1] === 481) {
+                    playerScore += 1;
+                    playerResult.innerText = playerScore;
+                } else if (ballPosition[1] === 1) {
+                    computerScore += 1;
+                    computerResult.innerText = computerScore;
+                }
             }
-            if (
-                (ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)) {
+
+            if ((ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)
+            || ((ballPosition[1] >= 464 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
                 console.log('UDDERZENIE')
@@ -135,5 +149,5 @@ const startGame = () => {
             ball.style.right = ballPosition[1] + 'px';
         }
     }
-    ballInterval = setInterval(chagneGameState, 5);
+    ballInterval = setInterval(changeGameState, 5);
 }
