@@ -103,7 +103,7 @@ const stopBallMovement = () => {
 }
 
 const setInitialBallPosition = () => {
-    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 5];
+    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 55];
     ball.style.display = "block";
     ball.style.top = ballPosition[0];
     ball.style.right = ballPosition[1];
@@ -113,7 +113,7 @@ const setInitialBallPosition = () => {
 const startGame = () => {
     setInitialBallPosition();
     playerMoveHandler();
-    const chagneGameState = () => {     // this is basically ball movement
+    const changeGameState = () => {     // this is basically ball movement
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
             && ballPosition[1] >= 0 && ballPosition[1] <= gameWindowWidth) {
 
@@ -123,7 +123,6 @@ const startGame = () => {
             // -5 stands for ball's width/height
 
             const bottomController = relativePlayerPos.top + 70;
-                console.log(ballPosition)
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5)) {
                 if (ballPosition[1] === 481) {
                     playerScore += 1;
@@ -150,5 +149,5 @@ const startGame = () => {
             ball.style.right = ballPosition[1] + 'px';
         }
     }
-    ballInterval = setInterval(chagneGameState, 5);
+    ballInterval = setInterval(changeGameState, 5);
 }

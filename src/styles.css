@@ -54,6 +54,10 @@
     top: 20px;
 }
 
+.game__left-player {
+    top: 20px;
+}
+
 .game__ball {
     height: 5px;
     width: 5px;
