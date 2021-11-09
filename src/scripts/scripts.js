@@ -1,7 +1,5 @@
 const player = document.querySelector('.game__right-player');
-const computer = document.querySelector('.game__left-player');
 const playerResult = document.querySelector('.game__score-right');
-const computerResult = document.querySelector('.game__score-left');
 const ball = document.querySelector('.game__ball');
 const game = document.querySelector('.game');
 let gameWindowHeight;
@@ -14,7 +12,6 @@ let ballSpeedY = 1;
 let startingPlayer;
 let ballInterval;
 const relativePlayerPos = {};
-const relativeComputerPos = {}
 let playerScore = 0;
 let computerScore = 0;
 
@@ -107,12 +104,12 @@ const setInitialBallPosition = () => {
     ball.style.display = "block";
     ball.style.top = ballPosition[0];
     ball.style.right = ballPosition[1];
-
 }
 
 const startGame = () => {
     setInitialBallPosition();
     playerMoveHandler();
+    initComputerMovement();
     const changeGameState = () => {     // this is basically ball movement
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
             && ballPosition[1] >= 0 && ballPosition[1] <= gameWindowWidth) {
@@ -123,7 +120,6 @@ const startGame = () => {
             // -5 stands for ball's width/height
 
             const bottomController = relativePlayerPos.top + 70;
-            console.log(ballPosition[1])
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 20)) {
                 if (ballPosition[1] === gameWindowWidth) {
                     playerScore += 1;
