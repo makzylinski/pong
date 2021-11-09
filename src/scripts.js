@@ -123,18 +123,19 @@ const startGame = () => {
             // -5 stands for ball's width/height
 
             const bottomController = relativePlayerPos.top + 70;
-            if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 5)) {
-                if (ballPosition[1] === 481) {
+            console.log(ballPosition[1])
+            if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 20)) {
+                if (ballPosition[1] === gameWindowWidth) {
                     playerScore += 1;
                     playerResult.innerText = playerScore;
-                } else if (ballPosition[1] === 1) {
+                } else if (ballPosition[1] <=1) {
                     computerScore += 1;
                     computerResult.innerText = computerScore;
                 }
             }
 
             if ((ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)
-            || ((ballPosition[1] >= 464 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
+            || ((ballPosition[1] >= gameWindowWidth - 20 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
                 console.log('UDDERZENIE')
