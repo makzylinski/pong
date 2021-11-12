@@ -12,10 +12,10 @@ const initComputerMovement = () => {
 
 const coputerMovement = () => {
     const computerMove = () => {
-        computerPosition = ballPosition[0] - relativeComputerPos.elementHeight - relativeComputerPos.elementHeight / 2;
-        console.log(computerPosition)
-        if (computerPosition <= gameWindowHeight - relativeComputerPos.elementHeight - 4 ) {
+        if (ballPosition[1] >= gameWindowWidth / 2) {
+            computerPosition = ballPosition[0] - relativeComputerPos.elementHeight / 2;
             computer.style.top = computerPosition + 'px';
+
         }
     }
 
