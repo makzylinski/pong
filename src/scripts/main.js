@@ -57,9 +57,6 @@ const calculateControllersCoordinates = () => {
         relativeComputerPos.elementHeight = computer.offsetHeight;
 }
 
-
-
-
 const startGame = () => {
     setInitialBallPosition();
     playerMoveHandler();
@@ -71,9 +68,9 @@ const startGame = () => {
             ballPosition[1] = ballPosition[1] + ballSpeedX; //width X
             ballPosition[0] = ballPosition[0] + ballSpeedY; //height Y
 
-            // -5 stands for ball's width/height
-
-            const bottomController = relativePlayerPos.top + 70;
+            let bottomController;
+            ballPosition[1] > gameWindowHeight / 2 ? bottomController = relativeComputerPos.top + relativeComputerPos.elementHeight : bottomController = relativePlayerPos.top + relativePlayerPos.elementHeight;
+            
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 20)) {
                 if (ballPosition[1] === gameWindowWidth) {
                     playerScore += 1;
@@ -88,7 +85,6 @@ const startGame = () => {
                 || ((ballPosition[1] >= gameWindowWidth - 20 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
-                console.log('UDDERZENIE')
             }
 
             if (ballPosition[0] < 0 || ballPosition[0] > gameWindowHeight - 5) {

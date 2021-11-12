@@ -4,18 +4,16 @@ const relativeComputerPos = {}
 let computerPosition = 16;
 
 const initComputerMovement = () => {
-    console.log(ballPosition)
     calculateControllersCoordinates();
     coputerMovement();
-    console.log(relativeComputerPos)
 }
 
 const coputerMovement = () => {
     const computerMove = () => {
         if (ballPosition[1] >= gameWindowWidth / 2) {
             computerPosition = ballPosition[0] - relativeComputerPos.elementHeight / 2;
+            relativeComputerPos.top = computerPosition;
             computer.style.top = computerPosition + 'px';
-
         }
     }
 
