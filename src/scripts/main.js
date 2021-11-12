@@ -1,22 +1,9 @@
-const player = document.querySelector('.game__right-player');
-const playerResult = document.querySelector('.game__score-right');
-const ball = document.querySelector('.game__ball');
 const game = document.querySelector('.game');
 let gameWindowHeight;
 let gameWindowWidth;
-let gameStopped = true;
-let playerPosition = 16;
-let ballPosition;
-let ballSpeedX = 1;
-let ballSpeedY = 1;
 let startingPlayer;
-let ballInterval;
-const relativePlayerPos = {};
 let playerScore = 0;
 let computerScore = 0;
-
-const PLAYER_UP = 'PLAYER_UP';
-const PLAYER_DOWN = 'PLAYER_DOWN';
 
 window.onload = () => {
     chooseStartingPlayer();
@@ -36,19 +23,6 @@ const detectGameStart = () => {
             stopBallMovement();
         };
     });
-}
-
-const playerMoveHandler = () => {
-    document.addEventListener('keypress', (event) => {
-        if (event.key !== undefined && !gameStopped) {
-            event.preventDefault();
-            if (event.key == 'w' || event.key == 'W' || event.key == 'ArrowUp') {
-                movePlayer(PLAYER_UP);
-            } else if (event.key == 's' || event.key == 'S' || event.key == 'ArrowDown') {
-                movePlayer(PLAYER_DOWN);
-            }
-        }
-    })
 }
 
 const chooseStartingPlayer = () => {
@@ -83,28 +57,8 @@ const calculateControllersCoordinates = () => {
         relativeComputerPos.elementHeight = computer.offsetHeight;
 }
 
-const movePlayer = direction => {
-    const nextStep = 15;
-    // -4 stands for game border TODO
-    if (direction === PLAYER_DOWN && playerPosition + nextStep <= game.offsetHeight - relativePlayerPos.elementHeight - 4) {
-        playerPosition += nextStep;
-    } else if (direction === PLAYER_UP && playerPosition - nextStep >= 0) {
-        playerPosition -= nextStep;
-    }
-    player.style.top = playerPosition + 'px';
-    calculateControllersCoordinates();
-}
 
-const stopBallMovement = () => {
-    clearInterval(ballInterval);
-}
 
-const setInitialBallPosition = () => {
-    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 55];
-    ball.style.display = "block";
-    ball.style.top = ballPosition[0];
-    ball.style.right = ballPosition[1];
-}
 
 const startGame = () => {
     setInitialBallPosition();
@@ -124,14 +78,14 @@ const startGame = () => {
                 if (ballPosition[1] === gameWindowWidth) {
                     playerScore += 1;
                     playerResult.innerText = playerScore;
-                } else if (ballPosition[1] <=1) {
+                } else if (ballPosition[1] <= 1) {
                     computerScore += 1;
                     computerResult.innerText = computerScore;
                 }
             }
 
             if ((ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)
-            || ((ballPosition[1] >= gameWindowWidth - 20 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
+                || ((ballPosition[1] >= gameWindowWidth - 20 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
                 console.log('UDDERZENIE')
