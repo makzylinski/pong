@@ -14,18 +14,14 @@ window.onload = () => {
     calculateControllersCoordinates();
     detectGameStart();
     initScores();
+    playerMoveHandler();
 }
 
 const detectGameStart = () => {
-    document.addEventListener('keydown', (e) => {
-        if (gameStopped && e.key === 'Enter') {
-            gameStopped = false;
-            startGame();
-        };
-        if (e.key == 'Escape') {
-            stopBallMovement();
-        };
-    });
+    if (gameStopped) {
+        gameStopped = false;
+        startGame();
+    };
 }
 
 const chooseStartingPlayer = () => {
@@ -78,13 +74,13 @@ const addPoint = winner => {
 
     setTimeout(() => {
         chooseStartingPlayer();
+        gameStopped = false;
         startGame();
     }, 2000)
 }
 
 const startGame = () => {
     setInitialBallPosition();
-    playerMoveHandler();
     initComputerMovement();
     const changeGameState = () => {     // this is basically ball movement
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
