@@ -5,6 +5,9 @@ let startingPlayer;
 let playerScore = 0;
 let computerScore = 0;
 
+const PLAYER = 'PLAYER';
+const COMPUTER = 'COMPUTER';
+
 window.onload = () => {
     chooseStartingPlayer();
     initGameDimensions();
@@ -57,6 +60,28 @@ const calculateControllersCoordinates = () => {
         relativeComputerPos.elementHeight = computer.offsetHeight;
 }
 
+const stopInterval = (interval) => {
+    clearInterval(interval);
+}
+
+const addPoint = winner => {
+    if (winner === PLAYER) {
+        playerScore += 1;
+        playerResult.innerText = playerScore;
+    } else {
+        computerScore += 1;
+        computerResult.innerText = computerScore;
+    }
+    stopInterval(ballInterval);
+    stopInterval(computerMovementInterval);
+    gameStopped = true;
+
+    setTimeout(() => {
+        chooseStartingPlayer();
+        startGame();
+    }, 2000)
+}
+
 const startGame = () => {
     setInitialBallPosition();
     playerMoveHandler();
@@ -70,14 +95,12 @@ const startGame = () => {
 
             let bottomController;
             ballPosition[1] > gameWindowHeight / 2 ? bottomController = relativeComputerPos.top + relativeComputerPos.elementHeight : bottomController = relativePlayerPos.top + relativePlayerPos.elementHeight;
-            
+
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 20)) {
                 if (ballPosition[1] === gameWindowWidth) {
-                    playerScore += 1;
-                    playerResult.innerText = playerScore;
+                    addPoint(PLAYER);
                 } else if (ballPosition[1] <= 1) {
-                    computerScore += 1;
-                    computerResult.innerText = computerScore;
+                    addPoint(COMPUTER);
                 }
             }
 

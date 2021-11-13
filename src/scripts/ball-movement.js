@@ -5,11 +5,6 @@ let ballSpeedX = 1;
 let ballSpeedY = 1;
 let ballInterval;
 
-
-const stopBallMovement = () => {
-    clearInterval(ballInterval);
-}
-
 const setInitialBallPosition = () => {
     startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 55];
     ball.style.display = "block";
