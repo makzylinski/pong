@@ -58,11 +58,11 @@ body {
 
 .game__right-player {
     right: 0;
-    top: 20px;
+    top: 10px;
 }
 
 .game__left-player {
-    top: 20px;
+    top: 0;
 }
 
 .game__ball {

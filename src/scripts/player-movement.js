@@ -21,8 +21,8 @@ const playerMoveHandler = () => {
 
 const movePlayer = direction => {
     const nextStep = 15;
-    // -4 stands for game border TODO
-    if (direction === PLAYER_DOWN && playerPosition + nextStep <= game.offsetHeight - relativePlayerPos.elementHeight - 4) {
+    // -10 stands for game border TODO
+    if (direction === PLAYER_DOWN && playerPosition + nextStep <= game.offsetHeight - relativePlayerPos.elementHeight - 10) {
         playerPosition += nextStep;
     } else if (direction === PLAYER_UP && playerPosition - nextStep >= 0) {
         playerPosition -= nextStep;

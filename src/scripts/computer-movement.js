@@ -1,21 +1,38 @@
 const computer = document.querySelector('.game__left-player');
 const computerResult = document.querySelector('.game__score-left');
 const relativeComputerPos = {}
-let computerPosition = 16;
+let computerPositionTop = 0;
+let computerPositionBottom = relativeComputerPos.elementHeight;
 
 const initComputerMovement = () => {
     calculateControllersCoordinates();
     coputerMovement();
+    setComputerControllerPosition();
+
+    relativeComputerPos.top = computerPositionTop;
+    computer.style.top = computerPositionTop + 'px';
+}
+
+const setComputerControllerPosition = () => {
+    relativeComputerPos.top = computerPositionTop;
+    computer.style.top = computerPositionTop + 'px';
 }
 
 const coputerMovement = () => {
     const computerMove = () => {
         if (ballPosition[1] >= gameWindowWidth / 2) {
-            computerPosition = ballPosition[0] - relativeComputerPos.elementHeight / 2;
-            relativeComputerPos.top = computerPosition;
-            computer.style.top = computerPosition + 'px';
+            const nextStep = 15;
+            computerPositionBottom = computerPositionTop + relativeComputerPos.elementHeight;
+            if (!(ballPosition[0] >= computerPositionTop && ballPosition[0] <= computerPositionBottom)
+                && ballPosition[0] < computerPositionTop) {
+                computerPositionTop -= nextStep;
+            } else if (ballPosition[0] > computerPositionBottom) {
+                computerPositionTop += nextStep;
+            }
+
+            setComputerControllerPosition();
         }
     }
 
-    setInterval(computerMove, 5)
+    setInterval(computerMove, 1) // reducing this value may increase difficulty level
 }
