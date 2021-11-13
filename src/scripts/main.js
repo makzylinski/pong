@@ -1,25 +1,9 @@
-const player = document.querySelector('.game__right-player');
-const computer = document.querySelector('.game__left-player');
-const playerResult = document.querySelector('.game__score-right');
-const computerResult = document.querySelector('.game__score-left');
-const ball = document.querySelector('.game__ball');
 const game = document.querySelector('.game');
 let gameWindowHeight;
 let gameWindowWidth;
-let gameStopped = true;
-let playerPosition = 16;
-let ballPosition;
-let ballSpeedX = 1;
-let ballSpeedY = 1;
 let startingPlayer;
-let ballInterval;
-const relativePlayerPos = {};
-const relativeComputerPos = {}
 let playerScore = 0;
 let computerScore = 0;
-
-const PLAYER_UP = 'PLAYER_UP';
-const PLAYER_DOWN = 'PLAYER_DOWN';
 
 window.onload = () => {
     chooseStartingPlayer();
@@ -39,19 +23,6 @@ const detectGameStart = () => {
             stopBallMovement();
         };
     });
-}
-
-const playerMoveHandler = () => {
-    document.addEventListener('keypress', (event) => {
-        if (event.key !== undefined && !gameStopped) {
-            event.preventDefault();
-            if (event.key == 'w' || event.key == 'W' || event.key == 'ArrowUp') {
-                movePlayer(PLAYER_UP);
-            } else if (event.key == 's' || event.key == 'S' || event.key == 'ArrowDown') {
-                movePlayer(PLAYER_DOWN);
-            }
-        }
-    })
 }
 
 const chooseStartingPlayer = () => {
@@ -86,33 +57,10 @@ const calculateControllersCoordinates = () => {
         relativeComputerPos.elementHeight = computer.offsetHeight;
 }
 
-const movePlayer = direction => {
-    const nextStep = 15;
-    // -4 stands for game border TODO
-    if (direction === PLAYER_DOWN && playerPosition + nextStep <= game.offsetHeight - relativePlayerPos.elementHeight - 4) {
-        playerPosition += nextStep;
-    } else if (direction === PLAYER_UP && playerPosition - nextStep >= 0) {
-        playerPosition -= nextStep;
-    }
-    player.style.top = playerPosition + 'px';
-    calculateControllersCoordinates();
-}
-
-const stopBallMovement = () => {
-    clearInterval(ballInterval);
-}
-
-const setInitialBallPosition = () => {
-    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 55];
-    ball.style.display = "block";
-    ball.style.top = ballPosition[0];
-    ball.style.right = ballPosition[1];
-
-}
-
 const startGame = () => {
     setInitialBallPosition();
     playerMoveHandler();
+    initComputerMovement();
     const changeGameState = () => {     // this is basically ball movement
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
             && ballPosition[1] >= 0 && ballPosition[1] <= gameWindowWidth) {
@@ -120,25 +68,23 @@ const startGame = () => {
             ballPosition[1] = ballPosition[1] + ballSpeedX; //width X
             ballPosition[0] = ballPosition[0] + ballSpeedY; //height Y
 
-            // -5 stands for ball's width/height
-
-            const bottomController = relativePlayerPos.top + 70;
-            console.log(ballPosition[1])
+            let bottomController;
+            ballPosition[1] > gameWindowHeight / 2 ? bottomController = relativeComputerPos.top + relativeComputerPos.elementHeight : bottomController = relativePlayerPos.top + relativePlayerPos.elementHeight;
+            
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 20)) {
                 if (ballPosition[1] === gameWindowWidth) {
                     playerScore += 1;
                     playerResult.innerText = playerScore;
-                } else if (ballPosition[1] <=1) {
+                } else if (ballPosition[1] <= 1) {
                     computerScore += 1;
                     computerResult.innerText = computerScore;
                 }
             }
 
             if ((ballPosition[1] <= 10 && ballPosition[0] >= relativePlayerPos.top && ballPosition[0] <= bottomController)
-            || ((ballPosition[1] >= gameWindowWidth - 20 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
+                || ((ballPosition[1] >= gameWindowWidth - 20 && ballPosition[0] >= relativeComputerPos.top && ballPosition[0] <= bottomController))) {
                 ballSpeedX = ballSpeedX * (-1);
                 ballPosition[1] = ballPosition[1] + ballSpeedX;
-                console.log('UDDERZENIE')
             }
 
             if (ballPosition[0] < 0 || ballPosition[0] > gameWindowHeight - 5) {
