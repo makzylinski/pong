@@ -6,7 +6,7 @@ let ballSpeedY = 1;
 let ballInterval;
 
 const setInitialBallPosition = () => {
-    startingPlayer ? ballPosition = [0, 0] : ballPosition = [0, gameWindowWidth - 55];
+    ballPosition = [0, gameWindowWidth / 2]
     ball.style.display = "block";
     ball.style.top = ballPosition[0];
     ball.style.right = ballPosition[1];
