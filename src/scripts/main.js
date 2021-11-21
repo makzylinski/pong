@@ -76,7 +76,7 @@ const addPoint = winner => {
         chooseStartingPlayer();
         gameStopped = false;
         startGame();
-    }, 2000)
+    }, 2000) 
 }
 
 const startGame = () => {
