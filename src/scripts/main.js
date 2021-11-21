@@ -5,24 +5,23 @@ let startingPlayer;
 let playerScore = 0;
 let computerScore = 0;
 
+const PLAYER = 'PLAYER';
+const COMPUTER = 'COMPUTER';
+
 window.onload = () => {
     chooseStartingPlayer();
     initGameDimensions();
     calculateControllersCoordinates();
     detectGameStart();
     initScores();
+    playerMoveHandler();
 }
 
 const detectGameStart = () => {
-    document.addEventListener('keydown', (e) => {
-        if (gameStopped && e.key === 'Enter') {
-            gameStopped = false;
-            startGame();
-        };
-        if (e.key == 'Escape') {
-            stopBallMovement();
-        };
-    });
+    if (gameStopped) {
+        gameStopped = false;
+        startGame();
+    };
 }
 
 const chooseStartingPlayer = () => {
@@ -57,9 +56,31 @@ const calculateControllersCoordinates = () => {
         relativeComputerPos.elementHeight = computer.offsetHeight;
 }
 
+const stopInterval = (interval) => {
+    clearInterval(interval);
+}
+
+const addPoint = winner => {
+    if (winner === PLAYER) {
+        playerScore += 1;
+        playerResult.innerText = playerScore;
+    } else {
+        computerScore += 1;
+        computerResult.innerText = computerScore;
+    }
+    stopInterval(ballInterval);
+    stopInterval(computerMovementInterval);
+    gameStopped = true;
+
+    setTimeout(() => {
+        chooseStartingPlayer();
+        gameStopped = false;
+        startGame();
+    }, 2000) 
+}
+
 const startGame = () => {
     setInitialBallPosition();
-    playerMoveHandler();
     initComputerMovement();
     const changeGameState = () => {     // this is basically ball movement
         if (ballPosition[0] >= 0 && ballPosition[0] <= gameWindowHeight
@@ -70,14 +91,12 @@ const startGame = () => {
 
             let bottomController;
             ballPosition[1] > gameWindowHeight / 2 ? bottomController = relativeComputerPos.top + relativeComputerPos.elementHeight : bottomController = relativePlayerPos.top + relativePlayerPos.elementHeight;
-            
+
             if ((ballPosition[1] < 0 || ballPosition[1] > gameWindowWidth - 20)) {
                 if (ballPosition[1] === gameWindowWidth) {
-                    playerScore += 1;
-                    playerResult.innerText = playerScore;
+                    addPoint(PLAYER);
                 } else if (ballPosition[1] <= 1) {
-                    computerScore += 1;
-                    computerResult.innerText = computerScore;
+                    addPoint(COMPUTER);
                 }
             }
 

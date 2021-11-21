@@ -3,6 +3,7 @@ const computerResult = document.querySelector('.game__score-left');
 const relativeComputerPos = {}
 let computerPositionTop = 0;
 let computerPositionBottom = relativeComputerPos.elementHeight;
+let computerMovementInterval;
 
 const initComputerMovement = () => {
     calculateControllersCoordinates();
@@ -34,5 +35,5 @@ const coputerMovement = () => {
         }
     }
 
-    setInterval(computerMove, 1) // reducing this value may increase difficulty level
+    computerMovementInterval = setInterval(computerMove, 1) // reducing this value may increase difficulty level
 }
